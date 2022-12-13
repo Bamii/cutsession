@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cutsession - Sessions</title>
+</head>
+<style>
+  .loading {
+    opacity: 0.5;
+  }
+
+  .list-item {
+    width: 500px;
+    border: 1px solid black;
+    margin-bottom: 8px;
+  }
+
+  .list-item [data-type] {
+    font-size: 28px;
+  }
+
+  .list-item [data-id] {
+    font-size: 8px;
+    color: silver;
+  }
+
+  .list-item .time-range {
+    display: flex;
+    justify-items: space-between;
+    align-items: center;
+  }
+
+  .list-item .time-range [data-startsAt] {
+    font-size: 18px;
+  }
+
+  .list-item .time-range [data-endsAt] {
+    font-size: 18px;
+  }
+</style>
+<body>
+  <div>sessions list</div>
+
+  <button id="load">load sessions</button>
+
+  <div data-table="">
+  </div>
+
+  <script type="module" src="./core/sessions/index.js"></script>
+</body>
+</html>
