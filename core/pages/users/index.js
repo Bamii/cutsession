@@ -2,11 +2,49 @@ import apis from "../../apis";
 import Controller from "../../common/Controller";
 import View from "../../common/View";
 import UserListItem from "../../components/user-list-item";
+import UserSearch from "../../components/user-search";
+import Nav from "../../components/nav";
 
 class UserView extends View {
   constructor() {
     super();
     this.table = document.querySelector("[data-table]");
+    this.search = new UserSearch({
+      selector: "search",
+      events: {
+        searchbtn: {
+          onclick: (e, component) => {
+            const payload = Object.entries({
+              city: component.get("citysearch", "value"),
+              name: component.get("namesearch", "value")
+            }).reduce((acc, [key, val]) => (
+              !val ? acc : { ...acc, [key]: val }
+            ), {});
+
+            this.controller.getMerchants(payload);
+          }
+        }
+      }
+    })
+    this.nav = new Nav({
+      selector: "navigation",
+      events: {
+        logout: {
+          onclick: () => {
+            this.controller.logout();
+          }
+        }
+      }
+    })
+  }
+
+  init() {
+    this.updateNav();
+  }
+
+  updateNav() {
+    const { type } = this.controller.user;
+    this.nav.showUserNav(type);
   }
 
   loading(status) {
@@ -20,7 +58,9 @@ class UserView extends View {
 
     users.forEach(({ phoneNumber, name, email, id, merchantId }) => {
       const that = this;
-      const el = new UserListItem({
+      new UserListItem({
+        isList: true,
+        table: this.table,
         state: {
           "name": name,
           "email": email,
@@ -30,12 +70,12 @@ class UserView extends View {
         events: {
           "container": {
             onclick() {
-              that.controller.navigate(`/sessions.html?merchant=${merchantId}`)
+              that.controller
+                .navigate(`/sessions.html?merchant=${merchantId}`)
             }
           }
         }
       });
-      this.table.append(el.node);
     });
   }
 }
@@ -46,12 +86,11 @@ class UsersController extends Controller {
     this.authenticate();
   }
   
-  async getMerchants() {
+  async getMerchants(opts) {
+    this.
     this.view.loading(true);
     try {
-      const { data: merchants } = await apis.users.get_merchants();
-      console.log(merchants);
-      // this.updateMerchants(merchants);
+      const { data: merchants } = await apis.users.get_merchants(opts);
       this.view.updateList(merchants);
     } catch (error) {
       this.view.notify("error!!");
@@ -64,22 +103,12 @@ class UsersController extends Controller {
     this.view.loading(true);
     try {
       const { data: merchants } = await apis.users.get_users();
-      console.log(merchants);
-      // this.updateUsers(merchants);
       this.view.updateList(merchants);
     } catch (error) {
       this.view.notify("error!!");
     } finally {
       this.view.loading(false);
     }
-  }
-
-  getNextUsers() {
-
-  }
-
-  getNextMerchants() {
-
   }
 }
 
@@ -88,15 +117,7 @@ class UsersController extends Controller {
   const controller = new UsersController();
   view.setController(controller);
 
-  document
-    .querySelectorAll('.tab')
-    .forEach((tab) => {
-      tab.onclick = function() {
-        if(tab.textContent == "users") {
-          controller.getUsers();
-        } else {
-          controller.getMerchants();
-        }
-      }
-    });
+  window.onload = () => {
+    controller.getMerchants();
+  }
 })();
