@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>cutsession - Bookings</title>
+  <title>cutsession</title>
+  <link rel="stylesheet" href="./stylesheets/index.css">
 </head>
 <style>
   .loading {
@@ -41,13 +42,13 @@
   }
 </style>
 <body>
+  <div data-navigation></div>
   <div>booking list</div>
 
-  <button id="load">load bookings</button>
+  <div data-header></div>
+  <div data-search></div>
+  <div data-table=""></div>
 
-  <div data-table="">
-  </div>
-
-  <script type="module" src="./core/bookings/index.js"></script>
+  <script type="module" src="./core/pages/bookings/index.js"></script>
 </body>
 </html>

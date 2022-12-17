@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>cutsession - Sessions</title>
+  <title>cutsession</title>
+  <link rel="stylesheet" href="./stylesheets/index.css">
 </head>
 <style>
   .loading {
@@ -39,15 +40,26 @@
   .list-item .time-range [data-endsAt] {
     font-size: 18px;
   }
+
+  [data-createbooking], [data-createsession] {
+    display: none;
+  }
+  
+  [data-createbooking].active,
+  [data-createsession].active {
+    display: block;
+  }
 </style>
 <body>
+  <div data-navigation></div>
   <div>sessions list</div>
+  
+  <!-- <div data-search></div> -->
+  <div data-header></div>
+  <div data-createsession></div>
+  <div data-createbooking></div>
+  <div data-table></div>
 
-  <button id="load">load sessions</button>
-
-  <div data-table="">
-  </div>
-
-  <script type="module" src="./core/sessions/index.js"></script>
+  <script type="module" src="./core/pages/sessions/index.js"></script>
 </body>
 </html>
