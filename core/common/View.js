@@ -4,9 +4,12 @@ export default class View {
     this.controller = null;
   }
 
+  init(){}
+
   setController(controller) {
     this.controller = controller;
     this.controller.addView(this);
+    this.init()
   }
 
   notify() {}

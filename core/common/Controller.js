@@ -1,31 +1,50 @@
 export default class Controller {
   constructor({ model }) {
     this.model = model;
+    this.state = {};
     this.view = null;
     this.merchants = JSON.parse(localStorage.getItem("merchants"));
     this.users = JSON.parse(localStorage.getItem("users"));
-    this.user = null;
+    this.user = JSON.parse(localStorage.getItem("user"));
+  }
+
+  setState(state) {
+    this.state = { ...this.state, ...state }    
   }
 
   authenticate() {
     const _route = window.location.pathname;
     const rules = [
-      { route: "/sessions.html", authenticate: true },
-      { route: "/bookings.html", authenticate: true },
-      { route: "/users.html", authenticate: true },
-      { route: "/login.html", authenticated: false },
-      { route: "/register-merchant.html", authenticated: false },
-      { route: "/register-user.html", authenticated: false },
-      { route: "/signup.html", authenticated: false }
+      { route: "/sessions.html", authenticate: true, allowed: ["USER", "MERCHANT"] },
+      { route: "/bookings.html", authenticate: true, allowed: ["USER"] },
+      { route: "/users.html", authenticate: true, allowed: ["USER", "MERCHANT"] },
+      { route: "/login.html", authenticate: false, allowed: ["USER", "MERCHANT"] },
+      { route: "/register-merchant.html", authenticate: false, allowed: ["USER", "MERCHANT"] },
+      { route: "/register-user.html", authenticate: false, allowed: ["USER", "MERCHANT"] },
+      { route: "/signup.html", authenticate: false, allowed: ["USER", "MERCHANT"] }
     ];
-    const { authenticated } = rules.find(({ route }) => _route == route);
-
-    // 404. but we never really reach here.
-    // if(!page)
-
-    if(authenticated) {
+    const route = rules.find(({ route }) => _route == route);
+    const { authenticate, allowed } = route;
+    
+    if(authenticate) {
       if(!this.user)
         this.navigate("/login.html");
+
+      const { type } = this.user;
+      if(!allowed.includes(type)) {
+        switch (type) {
+          case "MERCHANT":
+            this.navigate("/sessions.html");
+            break;
+          
+          case "USER":
+            this.navigate("/bookings.html");
+            break;
+        
+          default:
+            break;
+        }
+      }
     }
   }
 
@@ -39,6 +58,13 @@ export default class Controller {
 
   setUser(user) {
     this.user = user;
+    localStorage.setItem("user", JSON.stringify(this.user));
+  }
+
+  logout() {
+    this.user = null;
+    localStorage.clear();
+    this.navigate("/login.html");
   }
 
   updateUser(user, details) {
