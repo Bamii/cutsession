@@ -304,7 +304,6 @@ class SessionsController extends Controller {
   async getSessions(_merchant) {
     const { merchantId: merchant } = this.user;
 
-    console.log(this.user)
     this.view.loading(true);
     try {
       const sessions = await apis.sessions.get(_merchant || merchant);

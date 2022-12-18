@@ -78,7 +78,7 @@ export default {
   },
 };
 
-async function request(
+export async function request(
   _path,
   { method = "get", data = {}, query = {}, variables = {} } = {}
 ) {

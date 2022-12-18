@@ -43,7 +43,7 @@ export default class Component {
         Object.entries(attrs).forEach(([attributename, value]) => {
           const type = typeof value;
           element.setAttribute(attributename, type === "function"
-            ? value(element.getAttribute(attributename))
+            ? value(element.getAttribute(attributename), element)
             : value
           );
         })

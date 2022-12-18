@@ -1,10 +1,11 @@
-import apis from "../../apis";
+import apis, { request } from "../../apis";
 import Controller from "../../common/Controller";
 import View from "../../common/View";
 import BookingListItem from "../../components/booking-list-item";
 import BookingSearch from "../../components/booking-search";
 import Header from "../../components/header";
 import Nav from "../../components/nav";
+import TableNavigation from "../../components/table-navigation";
 
 class BookingView extends View {
   constructor() {
@@ -51,6 +52,21 @@ class BookingView extends View {
         }
       }
     })
+    this.tableNavigation = new TableNavigation({
+      selector: "tablenavigation",
+      events: {
+        previous: {
+          onclick: () => {
+            this.controller.getPrevious();
+          }
+        },
+        next: {
+          onclick: () => {
+            this.controller.getNext();
+          }
+        }
+      }
+    })
   }
 
   init() {
@@ -91,13 +107,25 @@ class BookingView extends View {
       value: username
     })
   }
+
+  updateTableNavigation() {
+    const { next, previous, page } = this.controller.state;
+
+    this.tableNavigation.page(page);
+    this.tableNavigation[next ? "enable" : "disable"]('next')
+    this.tableNavigation[previous && page > 1 ? "enable" : "disable"]('previous')
+  }
 }
 
 class BookingsController extends Controller {
   constructor() {
     super({ model: "" });
-    this.state = { selectedBooking: null }
+    this.state = { selectedBooking: null, links: { next: null, previous: null }, page: 0 }
     this.authenticate();
+  }
+
+  init() {
+    // this.view.updateTableNavigation();
   }
 
   async getBookings(options = {}) {
@@ -119,11 +147,40 @@ class BookingsController extends Controller {
       delete payload.start;
       delete payload.end;
 
-      const { data: bookings } = await apis.bookings.get(payload);
+      const { data: bookings, ...links } = await apis.bookings.get(payload);
+      this.setState({ links, page: 1 });
       this.view.updateList(bookings);
+      this.view.updateTableNavigation();
       this.view.loading(false);
     } catch (error) {
       this.view.loading(false);
+      this.view.notify(error.message);
+    }
+  }
+
+  async getNext() {
+    try {
+      if(this.state.next) {
+        this.view.loading(true);
+        const { data, ...links } = await request(this.state.next);
+        this.setState({ links, page: this.state.page + 1 });
+        this.view.updateList(bookings);
+      }
+    } catch (error) {
+      this.view.loading(false);
+      this.view.notify(error.message);
+    }
+  }
+
+  async getPrevious() {
+    try {
+      if(this.state.previous && this.state.page > 1) {
+        this.view.loading(true);
+        const { data, ...links } = await request(this.state.next);
+        this.setState({ links, page: this.state.page - 1 });
+        this.view.updateList(bookings);
+      }
+    } catch (error) {
       this.view.notify(error.message);
     }
   }
