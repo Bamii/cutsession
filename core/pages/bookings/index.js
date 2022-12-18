@@ -13,7 +13,7 @@ class BookingView extends View {
     this.table = document.querySelector("[data-table]");
     this.header = new Header({
       selector: "header",
-      state: { username: "..." }
+      state: { username: "...", type: "bookings" }
     })
     this.search = new BookingSearch({
       selector: "search",
@@ -63,6 +63,10 @@ class BookingView extends View {
   }
 
   loading(status) {
+    if(status)
+      this.notifier.notify("loading...")
+    else
+      this.notifier.close();
     this.table.classList[status ? 'add' : 'remove']("loading");
   }
 
@@ -96,7 +100,7 @@ class BookingsController extends Controller {
     this.authenticate();
   }
 
-  async getBookings(options) {
+  async getBookings(options = {}) {
     this.view.loading(true);
     try {
       const payload = Object
@@ -109,7 +113,6 @@ class BookingsController extends Controller {
         throw new Error()
 
       if(payload.start){
-        console.log('afa')
         payload.period = `${payload.start}${payload.end ? `:${payload.end}` : ""}`
       }
 
@@ -118,11 +121,17 @@ class BookingsController extends Controller {
 
       const { data: bookings } = await apis.bookings.get(payload);
       this.view.updateList(bookings);
-    } catch (error) {
-      this.view.notify("error!!");
-    } finally {
       this.view.loading(false);
+    } catch (error) {
+      this.view.loading(false);
+      this.view.notify(error.message);
     }
+  }
+
+  async getDashboard() {
+    const { username } = this.user;
+    this.view.updateHeader(username);
+    await this.getBookings();
   }
 }
 
@@ -132,6 +141,6 @@ class BookingsController extends Controller {
   view.setController(controller);
 
   window.onload = function() {
-    controller.getBookings({ query: {} });
+    controller.getDashboard();
   }
 })();

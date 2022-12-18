@@ -1,3 +1,4 @@
+import { DateTime } from "../vendors/luxon";
 
 export const withTable = (Controller) => {
   const MyController = new Object();
@@ -30,3 +31,13 @@ export const get_query_string = (query) => {
   });
   return query_string.toString();
 };
+
+export const getTimeInterval = (start, interval) => {
+  const suffix = ":00Z"
+  const [_hour,_minute] = start.split(":");
+  const { hour, minute } = DateTime.now()
+    .set({ hour: _hour, minute: _minute })
+    .plus({ minutes: interval });
+
+  return { hour, minute, suffix };
+}

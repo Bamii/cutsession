@@ -1,6 +1,16 @@
+import Notification from "../components/notification";
 export default class View {
   constructor() {
-    this.notifier = "";
+    this.notifier = new Notification({
+      selector: "notification",
+      events: {
+        close: {
+          onclick: (e, component) => {
+            component.close();
+          }
+        }
+      }
+    });
     this.controller = null;
   }
 
@@ -12,5 +22,11 @@ export default class View {
     this.init()
   }
 
-  notify() {}
+  notify(message) {
+    this.notifier.notify(message);
+  }
+
+  unnotify() {
+    this.notifier.close();
+  }
 }

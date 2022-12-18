@@ -42,7 +42,10 @@ export default class Component {
       if(element) {    
         Object.entries(attrs).forEach(([attributename, value]) => {
           const type = typeof value;
-          element.setAttribute(attributename, type === "function" ? value(this) : value);
+          element.setAttribute(attributename, type === "function"
+            ? value(element.getAttribute(attributename))
+            : value
+          );
         })
       }
     })

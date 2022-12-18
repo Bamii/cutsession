@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>cutsession</title>
   <link rel="stylesheet" href="./stylesheets/index.css">
+  <link rel="stylesheet" href="./stylesheets/tailwind.css">
 </head>
 <style>
   .loading {
@@ -42,12 +43,13 @@
   }
 </style>
 <body>
-  <div data-navigation></div>
-  <div>booking list</div>
-
-  <div data-header></div>
-  <div data-search></div>
-  <div data-table=""></div>
+  <div class="px-10 md:px-20">
+    <div data-notification></div>
+    <div data-navigation></div>
+    <div data-header></div>
+    <div data-search></div>
+    <div data-table=""></div>
+  </div>
 
   <script type="module" src="./core/pages/bookings/index.js"></script>
 </body>

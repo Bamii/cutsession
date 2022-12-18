@@ -1,11 +1,11 @@
 import Component from "./component";
 
 const template = `
-  <div data-navigation>
-    <a href="/users.html">Users</a>
-    <a href="/bookings.html" data-bookings>Bookings</a>
-    <a href="/sessions.html" data-sessions>Sessions</a>
-    <div data-logout>logout</div>
+  <div class="w-screen py-5 flex justify-center items-center" data-navigation>
+    <a class="hover:underline m-5" href="/users.html">Users</a>
+    <a class="hover:underline m-5" href="/bookings.html" data-bookings>Bookings</a>
+    <a class="hover:underline m-5" href="/sessions.html" data-sessions>Sessions</a>
+    <div class="hover:underline m-5 cursor-pointer" data-logout>logout</div>
   </div>
 `;
 

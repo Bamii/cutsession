@@ -2,6 +2,7 @@ import apis from "../../apis";
 import Controller from "../../common/Controller";
 import View from "../../common/View";
 import Login from "../../components/login";
+import LoginModel from "../../schema/login";
 
 class AuthView extends View {
   constructor() {
@@ -23,6 +24,13 @@ class AuthView extends View {
       },
     });
   }
+
+  loading(status) {
+    if(status)
+      this.notifier.notify("loading...")
+    else
+      this.notifier.close();
+  }
 }
 
 class AuthController extends Controller {
@@ -31,8 +39,11 @@ class AuthController extends Controller {
   }
 
   async login(payload) {
+    this.view.loading(true);
     try {
       // validate inputs;
+      LoginModel.validate(payload);
+
       const login = await apis.auth.login(payload);
       this.setUser({
         ...login,
@@ -40,6 +51,7 @@ class AuthController extends Controller {
         username: payload.username,
         merchantId: "c3073b9d-edd0-49f2-a28d-b7ded8ff9a8b",
       });
+      this.view.loading(false);
       switch (payload.accessType) {
         case "USER":
           this.navigate("/bookings.html");
@@ -53,7 +65,7 @@ class AuthController extends Controller {
           break;
       }
     } catch (error) {
-      console.log(error);
+      this.view.notify(error.message);
     }
   }
 }

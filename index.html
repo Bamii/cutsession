@@ -6,14 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>cutsession</title>
   <link rel="stylesheet" href="./stylesheets/index.css">
+  <link rel="stylesheet" href="./stylesheets/tailwind.css">
 </head>
 <body>
-  <div>
-    welcome to cutsession
-  </div>
-  <div>
-    <a href="login.html">Login</a>
-    <a href="register.html">Signup</a>
+  <div class="w-screen h-screen flex flex-col items-center justify-center">
+    <div class="text-6xl font-bold">
+      welcome to cutsession
+    </div>
+    <div class="text-xl my-10 w-full md:w-1/2 grid grid-rows-1 gap-5 justify-items-center">
+      <a class="hover:underline" href="login.html">Login</a>
+      <a class="hover:underline" href="register-user.html">Signup as user</a>
+      <a class="hover:underline" href="register-merchant.html">Signup as merchant</a>
+    </div>
   </div>
 </body>
 </html>

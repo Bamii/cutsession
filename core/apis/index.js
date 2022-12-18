@@ -10,8 +10,8 @@ export default {
     },
     async signup({ accessType, ..._data }) {
       return await request(
-        `https://stoplight.io/mocks/pipeline/pipelinev2-projects/111233856/register/${accessType.toLowerCase()}`,
-        { data: JSON.stringify(_data) }
+        `https://stoplight.io/mocks/pipeline/pipelinev2-projects/111233856/register/${accessType.toLowerCase()}s`,
+        { method: "post", data: JSON.stringify({ ..._data, accessType }) }
       );
     },
   },

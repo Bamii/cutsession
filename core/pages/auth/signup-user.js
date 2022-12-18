@@ -1,7 +1,8 @@
 import apis from "../../apis";
 import Controller from "../../common/Controller";
 import View from "../../common/View";
-import Signup from "../../components/signup";
+import Signup from "../../components/register-user";
+import SignupUserModel from "../../schema/register-user"
 
 class AuthView extends View {
   constructor() {
@@ -13,12 +14,13 @@ class AuthView extends View {
           onclick: (e, component) => {
             const payload = {
               username: component.get("username", "value"),
-              cityOfOperation: component.get("cityofeoperation", "value"),
+              dob: component.get("dob", "value"),
+              cityOfResidence: component.get("cityofresidence", "value"),
               name: component.get("name", "value"),
               email: component.get("email", "value"),
               phone: component.get("phone", "value"),
-              accessType: component.get("accesstype", "value"),
-              password: component.get("password", "value")
+              password: component.get("password", "value"),
+              accessType: "USER",
             }
 
             this.controller.signup(payload);
@@ -26,6 +28,13 @@ class AuthView extends View {
         }
       }
     })
+  }
+  
+  loading(status) {
+    if(status)
+      this.notifier.notify("loading...")
+    else
+      this.notifier.close();
   }
 }
 
@@ -35,20 +44,21 @@ class AuthController extends Controller {
   }
 
   async signup(payload) {
+    this.view.loading(true);
     try {
       // validate inputs
+      SignupUserModel.validate(payload);
+
       const user = await apis.auth.signup(payload);
       this.setUser({ ...user, type: payload.accessType });
+      this.view.loading(false);
+
       if(user.userId) {
         this.updateUser({ ... user, type: "USER" });
-        this.view.navigate("/bookings");
-      }
-      if(user.merchantId) {
-        this.updateUser({ ... user, type: "MERCHANT" });
-        this.view.navigate("/bookings");
+        this.navigate("/bookings.html");
       }
     } catch (error) {
-      console.log(error)
+      this.view.notify(error.message);
     }
   }
 }

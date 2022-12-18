@@ -6,13 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>cutsession | Users</title>
   <link rel="stylesheet" href="./stylesheets/index.css">
+  <link rel="stylesheet" href="./stylesheets/tailwind.css">
 </head>
 <body>
-  <div data-navigation></div>
-  <div>users list</div>
-
-  <div data-search></div>
-  <div data-table=""></div>
+  <div class="px-10 md:px-20">
+    <div data-navigation></div>
+    <div class="text-3xl">merchant list</div>
+  
+    <div data-search></div>
+    <div data-table=""></div>
+    <div data-notification></div>
+  </div>
 
   <script type="module" src="./core/pages/users/index.js"></script>
 </body>

@@ -1,8 +1,8 @@
 import Component from "./component";
 
 const template = `
-  <div data-header>
-    <span data-username></span>'s sessions
+  <div class="text-2xl" data-header>
+    <span class="text-4xl" data-username></span>'s <span data-type></span> list
   </div>
 `;
 

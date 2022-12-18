@@ -48,6 +48,10 @@ class UserView extends View {
   }
 
   loading(status) {
+    if(status)
+      this.notifier.notify("loading...")
+    else
+      this.notifier.close();
     this.table.classList[status ? 'add' : 'remove']("loading");
   }
 
@@ -62,10 +66,8 @@ class UserView extends View {
         isList: true,
         table: this.table,
         state: {
-          "name": name,
-          "email": email,
-          "phoneNumber":phoneNumber,
-          id:id
+          id, name, email,
+          "phonenumber":phoneNumber,
         },
         events: {
           "container": {
@@ -87,13 +89,22 @@ class UsersController extends Controller {
   }
   
   async getMerchants(opts) {
-    this.
     this.view.loading(true);
     try {
       const { data: merchants } = await apis.users.get_merchants(opts);
       this.view.updateList(merchants);
+      this.view.loading(false);
     } catch (error) {
-      this.view.notify("error!!");
+      this.view.loading(false);
+      this.view.notify(error.message);
+    }
+  }
+
+  async getDashboard() {
+    try {
+      await this.getMerchants();
+    } catch (error) {
+      this.view.notify(error.message);
     } finally {
       this.view.loading(false);
     }
@@ -105,7 +116,7 @@ class UsersController extends Controller {
       const { data: merchants } = await apis.users.get_users();
       this.view.updateList(merchants);
     } catch (error) {
-      this.view.notify("error!!");
+      this.view.notify(error.message);
     } finally {
       this.view.loading(false);
     }

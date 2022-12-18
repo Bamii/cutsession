@@ -1,26 +1,48 @@
 import Component from "./component";
 
 const template = `
-  <div data-createsession>
-    <select data-type>
-      <option value="">--------</option>
-      <option value="WeekDay">weekday</option>
-      <option value="WeekEnd">weekend</option>
-    </select>
-    <input data-start type="time" name="appt" required>
+  <div class="w-screen flex" data-createsession>
+    <div class="max-w-max mx-auto p-5 border my-3 mt-10">
+      <div class="text-lg font-bold mb-3">
+        create session
+      </div>
+      <div class="flex items-end">
+        <div class="grid gap-2 mr-2">
+          <label class="text-xs font-bold">day type</label>
+          <select class="py-2 px-6 border text-gray-400" data-type>
+            <option value="">--------</option>
+            <option value="WeekDay">weekday</option>
+            <option value="WeekEnd">weekend</option>
+          </select>
+        </div>
 
-    select interval
-    <select data-interval>
-      <option value="">--------</option>
-      <option value="45">45</option>
-      <option value="60">60</option>
-      <option value="90">90</option>
-    </select>
-    <button data-submit>submit</button>
+        <div class="grid gap-2 mr-2">
+          <label class="text-xs font-bold">select start time</label>
+          <input class="py-2 px-6 border text-gray-400" data-start type="time" name="appt" required>
+        </div>
 
-    <div>
-      <div data-detailsdate></div>
-      <div data-detailsinterval></div>
+        <div class="grid gap-2 mr-2">
+          <label class="text-xs font-bold">select interval</label>
+          <select class="py-2 px-6 border text-gray-400" data-interval>
+            <option value="">--------</option>
+            <option value="45">45</option>
+            <option value="60">60</option>
+            <option value="90">90</option>
+          </select>
+        </div>
+
+        <button class="mx-w-max px-5 py-2 border border-black bg-black text-white hover:bg-white hover:text-black" data-submit>submit</button>
+      </div>
+
+      <div class="mt-5">
+        <div class="font-bold text-xs">details</div>
+        <div class="text-xl" data-detailsdate>----</div>
+        <div class="flex items-center">
+          <div class="text-lg" data-intervalstart>---</div>
+          <span class="mx-2">to</span>
+          <div class="text-lg" data-intervalend>---</div>
+        </div>
+      </div>
     </div>
   </div>
 `;
