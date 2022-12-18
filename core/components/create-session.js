@@ -1,13 +1,13 @@
 import Component from "./component";
 
 const template = `
-  <div class="w-screen flex" data-createsession>
-    <div class="max-w-max mx-auto p-5 border my-3 mt-10">
+  <div class="flex" data-createsession>
+    <div class="mx-auto p-5 border my-10">
       <div class="text-lg font-bold mb-3">
         create session
       </div>
-      <div class="grid grid-cols-2 md:flex md:items-end">
-        <div class="grid gap-2 mr-2">
+      <div class="grid gap-3 grid-cols-2 items-end md:flex md:items-end">
+        <div class="grid gap-2 mr-2 w-full">
           <label class="text-xs font-bold">day type</label>
           <select class="py-2 px-6 border text-gray-400" data-type>
             <option value="">--------</option>
@@ -16,12 +16,12 @@ const template = `
           </select>
         </div>
 
-        <div class="grid gap-2 mr-2">
+        <div class="grid gap-2 mr-2 w-full">
           <label class="text-xs font-bold">select start time</label>
           <input class="py-2 px-6 border text-gray-400" data-start type="time" name="appt" required>
         </div>
 
-        <div class="grid gap-2 mr-2">
+        <div class="grid gap-2 mr-2 w-full">
           <label class="text-xs font-bold">select interval</label>
           <select class="py-2 px-6 border text-gray-400" data-interval>
             <option value="">--------</option>
@@ -31,7 +31,7 @@ const template = `
           </select>
         </div>
 
-        <button class="mx-w-max px-5 py-2 border border-black bg-black text-white hover:bg-white hover:text-black" data-submit>submit</button>
+        <button class="mx-w-max px-5 py-2 border border-black bg-black text-white hover:bg-white hover:text-black w-full" data-submit>submit</button>
       </div>
 
       <div class="mt-5">
