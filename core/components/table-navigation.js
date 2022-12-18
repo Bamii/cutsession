@@ -2,9 +2,9 @@ import Component from "./component";
 
 const template = `
   <div class="mx-auto px-5 flex items-center" data-tablenavigation>
-    <div data-previous class="cursor-pointer mr-20 py-2 px-6"> < previous </div>
+    <div data-previous class="cursor-pointe py-2 px-6"> < previous </div>
     <div data-page></div>
-    <div data-next class="cursor-pointer ml-20 py-2 px-6"> next > </div>
+    <div data-next class="cursor-pointer py-2 px-6"> next > </div>
   </div>
 `;
 

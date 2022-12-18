@@ -6,7 +6,7 @@ const template = `
       <div class="text-lg font-bold mb-3">
         create session
       </div>
-      <div class="flex items-end">
+      <div class="grid grid-cols-2 md:flex md:items-end">
         <div class="grid gap-2 mr-2">
           <label class="text-xs font-bold">day type</label>
           <select class="py-2 px-6 border text-gray-400" data-type>
