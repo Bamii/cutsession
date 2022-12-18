@@ -26,58 +26,20 @@ class SessionView extends View {
         type: {
           onchange: (e, component) => {
             const type = component.get("type", "value");
-            const start = component.get("start", "value");
+            // const start = component.get("start", "value");
 
-            component.set({
-              key: "detailsdate",
-              value: type
-            });
-
-            if(type.toLowerCase() === "weekday") {
-              component.set({
-                key: "start",
-                attributename: "min",
-                value: "9:00",
-                attribute: true
-              })
-              component.set({
-                key: "start",
-                attributename: "max",
-                value: "7:15",
-                attribute: true
-              })
-            } else {
-              component.set({
-                key: "start",
-                attributename: "min",
-                value: "10:00",
-                attribute: true
-              })
-              component.set({
-                key: "start",
-                attributename: "max",
-                value: "20:30",
-                attribute: true
-              })
-            }
+            component.setStartRange(type);
           }
         },
         start: {
           onchange: (e, component) => {
             const start = component.get("start", "value");
             const interval = component.get("interval", "value");
+            component.setStartIntervalDetails(`${start}:00Z`);
 
-            component.set({
-              key: "intervalstart",
-              value: `${start}:00Z`
-            });
             if(interval) {
               const { hour, minute, suffix } = getTimeInterval(start, interval);
-  
-              component.set({
-                key: "intervalend",
-                value: `${hour}:${minute}${suffix}`
-              });            
+              component.setEndIntervalDetails(`${hour}:${minute}${suffix}`);            
             }
           }
         },
@@ -88,14 +50,8 @@ class SessionView extends View {
             if(!start || !interval) return;
 
             const { hour, minute, suffix } = getTimeInterval(start, interval);
-            component.set({
-              key: "intervalstart",
-              value: `${start}${suffix}`
-            });
-            component.set({
-              key: "intervalend",
-              value: `${hour}:${minute}${suffix}`
-            });
+            component.setStartIntervalDetails(`${start}${suffix}`);
+            component.setEndIntervalDetails(`${hour}:${minute}${suffix}`);
           }
         },
         submit: {
@@ -117,16 +73,14 @@ class SessionView extends View {
             const { id, type } = this.controller.state.selectedSession;
             const { userId } = this.controller.user;
 
-            const data = {
+            this.controller.createBooking({
               type,
               sessionId: id,
               userId: "fgdfghjhcryuguftvhjjfgdfghjhcryuguftvhjj",
               date: component.get("date", "value"),
               notes: component.get("note", "value"),
               title: component.get("title", "value")
-            }
-
-            this.controller.createBooking(data);
+            });
           }
         },
         close: {
@@ -204,10 +158,7 @@ class SessionView extends View {
   }
 
   updateHeader(username) {
-    this.header.set({
-      key: "username",
-      value: username
-    })
+    this.header.setHeaderTitle(username);
   }
 
   updateCreateSession(show) {

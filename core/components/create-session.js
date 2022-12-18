@@ -60,5 +60,56 @@ export default class CreateSession extends Component {
   hide() {
     this._node.classList.remove("active");
   }
+
+  setDetailsDate(type) {
+    this.set({
+      key: "detailsdate",
+      value: type
+    });
+  }
+
+  setStartRange(type) {
+    if(type.toLowerCase() === "weekday") {
+      this.set({
+        key: "start",
+        attributename: "min",
+        value: "9:00",
+        attribute: true
+      })
+      this.set({
+        key: "start",
+        attributename: "max",
+        value: "7:15",
+        attribute: true
+      })
+    } else {
+      this.set({
+        key: "start",
+        attributename: "min",
+        value: "10:00",
+        attribute: true
+      })
+      this.set({
+        key: "start",
+        attributename: "max",
+        value: "20:30",
+        attribute: true
+      })
+    }
+  }
+
+  setStartIntervalDetails(value) {
+    this.set({
+      value,
+      key: "intervalstart",
+    });
+  }
+
+  setEndIntervalDetails(value) {
+    this.set({
+      key: "intervalend",
+      value
+    });         
+  }
 }
 

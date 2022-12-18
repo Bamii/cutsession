@@ -21,23 +21,17 @@ class BookingView extends View {
       events: {
         start: {
           onchange: (e, component) => {
-            component.set({
-              key: "end",
-              attribute: true,
-              attributename: "min",
-              value: e.target.value
-            });
+            component.setMinimumEndDate(e.target.value);
           }
         },
         searchbtn: {
           onclick: (e, component) => {
-            const payload = {
+            this.controller.getBookings({
               city: component.get("searchcity", "value"),
               name: component.get("searchmerchant", "value"),
               start: component.get("start", "value"),
               end: component.get("end", "value")
-            }
-            this.controller.getBookings(payload);
+            });
           }
         }
       }
@@ -96,16 +90,19 @@ class BookingView extends View {
       new BookingListItem({
         isList: true,
         table: that.table,
-        state: { startsAt, endsAt, title, notes, date },
+        state: {
+          date,
+          notes,
+          endsAt,
+          title,
+          startsAt,
+        },
       });
     });
   }
   
   updateHeader(username) {
-    this.header.set({
-      key: "username",
-      value: username
-    })
+    this.header.setHeaderTitle(username); 
   }
 
   updateTableNavigation() {

@@ -11,5 +11,12 @@ export default class Header extends Component {
   constructor(props) {
     super({ template, ...props });
   }
+
+  setHeaderTitle(username) {
+    this.set({
+      key: "username",
+      value: username
+    })
+  }
 }
 

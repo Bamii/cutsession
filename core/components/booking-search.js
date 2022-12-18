@@ -27,5 +27,14 @@ export default class BookingSearch extends Component {
   constructor(props) {
     super({ template, ...props });
   }
+
+  setMinimumEndDate(value) {
+    this.set({
+      value,
+      key: "end",
+      attribute: true,
+      attributename: "min",
+    });
+  }
 }
 
