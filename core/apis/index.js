@@ -1,16 +1,17 @@
 import { get_query_string } from "../../utils";
+const { API_URL } = process.env;
 
 export default {
   auth: {
     async login(_data) {
       return await request(
-        "https://stoplight.io/mocks/pipeline/pipelinev2-projects/111233856/sign-in",
+        `${API_URL}/sign-in`,
         { method: "post", data: JSON.stringify(_data) }
       );
     },
     async signup({ accessType, ..._data }) {
       return await request(
-        `https://stoplight.io/mocks/pipeline/pipelinev2-projects/111233856/register/${accessType.toLowerCase()}s`,
+        `${API_URL}/register/${accessType.toLowerCase()}s`,
         { method: "post", data: JSON.stringify({ ..._data, accessType }) }
       );
     },
@@ -18,7 +19,7 @@ export default {
   bookings: {
     async get(opts) {
       return await request(
-        "https://stoplight.io/mocks/pipeline/pipelinev2-projects/111233856/bookings",
+        `${API_URL}/bookings`,
         {
           query: {
             ...opts,
@@ -31,7 +32,7 @@ export default {
     },
     async create(data) {
       return await request(
-        "https://stoplight.io/mocks/pipeline/pipelinev2-projects/111233856/bookings",
+        `${API_URL}/bookings`,
         { method: "post", data: JSON.stringify(data) }
       );
     },
@@ -43,7 +44,7 @@ export default {
           throw new Error("Invalid merchant id");
         }
         return await request(
-          `https://stoplight.io/mocks/pipeline/pipelinev2-projects/111233856/studios/${merchant}`
+          `${API_URL}/studios/${merchant}`
         );
       } catch (error) {
         throw error;
@@ -51,7 +52,7 @@ export default {
     },
     async create(merchant, data) {
       return request(
-        `https://stoplight.io/mocks/pipeline/pipelinev2-projects/111233856/studios/${merchant}`,
+        `${API_URL}/studios/${merchant}`,
         { method: "post", data: JSON.stringify(data) }
       );
     },
@@ -59,12 +60,12 @@ export default {
   users: {
     async get_users() {
       return await request(
-        "https://stoplight.io/mocks/pipeline/pipelinev2-projects/111233856/clients?type=USER&limit=20&offset=1"
+        `${API_URL}/clients?type=USER&limit=20&offset=1`
       );
     },
     async get_merchants(opts = {}) {
       return await request(
-        "https://stoplight.io/mocks/pipeline/pipelinev2-projects/111233856/clients",
+        `${API_URL}/clients`,
         {
           query: {
             ...opts,
